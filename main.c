@@ -23,6 +23,29 @@ void interface(char name[], char cpfs[], char response){
     
 }
 
+void purchaseLog(float price, char nome[]){
+    
+    time_t rawtime = time(NULL);
+    
+    struct tm *timeinfo = localtime(&rawtime);
+
+    int year = timeinfo->tm_year + 1900;
+    int month = timeinfo->tm_mon;
+    int day = timeinfo->tm_mday;
+    int hour = timeinfo->tm_hour;   
+    int min = timeinfo->tm_min;     
+    int sec = timeinfo->tm_sec;     
+
+    FILE *fptr;
+
+    fptr = fopen("log.txt", "w");
+
+    fprintf(fptr, "\nCompra de R$%.2f feita por %sCompra feita em %d/%d/%d. Horario: %d:%d:%d\n", price, nome, day, month, year, hour, min, sec);
+    fclose(fptr);
+
+}
+
+
 char recharge(char name[], char cpfs[], char response){
         
         response = 'N';
@@ -31,12 +54,12 @@ char recharge(char name[], char cpfs[], char response){
                 // Saindo do switch se não esta registrado
             if (strcmp(name, "???") == 0|| strcmp(cpfs, "???") == 0){
                 printf("\nPor favor, registre sua informacao primeiro.\n");
-                return;
+                return 'N';
             }
             
             if (response == 'Y' || response == 'y'){
                 printf("\nA recarga ja foi paga!\n");
-                return;
+                return 'Y';
             }
 
             printf("\nQual a porcentagem de energia que seu carro tem no momento?: ");
@@ -47,7 +70,7 @@ char recharge(char name[], char cpfs[], char response){
             // Porcentagems tem que ser dentro de 0 e 100
             if (energia < 0 || energia > 100){
                 printf("Energia nao e valida.\n");
-                return;
+                return 'N';
             }
 
             float preco = 1.5 * (100 - energia); 
@@ -64,20 +87,6 @@ char recharge(char name[], char cpfs[], char response){
         return response;
 }
 
-void purchaseLog(float price, char nome[]){
-    
-    time_t rawtime = time(NULL);
-    
-    struct tm *timeinfo = localtime(&rawtime);
-
-    int year = timeinfo->tm_year + 1900;
-    int month = timeinfo->tm_mon;
-    int day = timeinfo->tm_mday;
-    int hour = timeinfo->tm_hour;   
-    int min = timeinfo->tm_min;     
-    int sec = timeinfo->tm_sec;     
-    printf("\nCompra de R$%f feita por %sCompra feita em %d/%d/%d. Horario: %d:%d:%d\n", price, nome, day, month, year, hour, min, sec);
-}
 
 int main(){
 
