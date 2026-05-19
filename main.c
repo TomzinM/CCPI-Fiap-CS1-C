@@ -96,6 +96,7 @@ int main(){
     char cpf[12] = "???";
     char resposta = 'N';
     int ch;
+    char nome2[100];
 
     while (processoCarregador == 1){ 
 
@@ -113,6 +114,16 @@ int main(){
             // Lendo o Nome
             printf("Qual seu nome completo? \n");
             fgets(nome, sizeof(nome), stdin);
+
+            printf("Escreva o seu nome novamente para confirmar.\n");
+            fgets(nome2, sizeof(nome2), stdin);
+
+            if (strcmp(nome, nome2) != 0){
+                printf("Nome invalido, nao e igual ao primeiro digitado.\n");
+                strcpy(nome, "???");
+                strcpy(cpf, "???");
+                break;
+            } 
 
             // Lendo o CPF
             printf("Qual seu CPF? \n");
