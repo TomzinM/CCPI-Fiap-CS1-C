@@ -51,18 +51,25 @@ char recharge(char name[], char cpfs[], char response){
         response = 'N';
         int ch;
         int energia;
+        char carro;
+
                 // Saindo do switch se não esta registrado
             if (strcmp(name, "???") == 0|| strcmp(cpfs, "???") == 0){
                 printf("\nPor favor, registre sua informacao primeiro.\n");
                 return 'N';
             }
-            
+                // Saindo do switch se ja foi pago
             if (response == 'Y' || response == 'y'){
                 printf("\nA recarga ja foi paga!\n");
                 return 'Y';
             }
 
-            printf("\nQual a porcentagem de energia que seu carro tem no momento?: ");
+            printf("Que tipo de carro voce tem?\nG (grande)\nM (medio)\nP (pequeno)\n");
+            scanf("%c", &carro);
+
+            while ((ch = getchar()) != '\n' && ch != EOF);
+
+            printf("Qual a porcentagem de energia que seu carro tem no momento?: ");
             scanf("%d", &energia);
 
             while ((ch = getchar()) != '\n' && ch != EOF);
@@ -73,8 +80,25 @@ char recharge(char name[], char cpfs[], char response){
                 return 'N';
             }
 
-            float preco = 1.5 * (100 - energia); 
-            float tempo = 0.5 * (100 - energia);
+            float kiloWattHora;
+
+            if (carro == 'G' || 'g'){
+                kiloWattHora = 1.3 * (100 - energia);
+            } 
+            else if (carro == 'M' || 'm'){
+                kiloWattHora = 0.6 * (100 - energia);
+            } 
+            else if (carro == 'P' || 'p'){
+                kiloWattHora = 0.4 * (100 - energia);
+            }
+            else { 
+                printf("O tipo de carro escolhido nao esta dentro das opcoes dadas.\n");
+                return 'N';
+            }
+
+            float preco = 1.5 * kiloWattHora; 
+            float tempo = 0.5 * kiloWattHora;
+            
 
             printf("Para uma recarga completa, demorara %.2f minutos e custara R$%.2f.\n", tempo, preco);
             printf("Quer prosseguir com pagamento? (Y/N) ");
